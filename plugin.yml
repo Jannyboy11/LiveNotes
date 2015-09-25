@@ -1,0 +1,5 @@
+name: LiveNotes
+description: A plugin that converts midi signals to note minecraft note sounds
+author: Jannyboy11
+version: 1.0
+main: me.jannyboy11.livenotes.LiveNotesPlugin
