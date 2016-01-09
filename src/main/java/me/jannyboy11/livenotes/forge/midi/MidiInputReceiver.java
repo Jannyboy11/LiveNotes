@@ -1,21 +1,26 @@
-package me.jannyboy11.livenotes.midi;
+package me.jannyboy11.livenotes.forge.midi;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 
-import org.bukkit.Bukkit;
-
-import me.jannyboy11.livenotes.framework.Instrument;
-import me.jannyboy11.livenotes.framework.Note;
+import me.jannyboy11.livenotes.common.framework.LiveNoteInstrument;
+import me.jannyboy11.livenotes.common.framework.LiveNote;
+import me.jannyboy11.livenotes.forge.LiveNotesMod;
+import me.jannyboy11.livenotes.forge.messaging.LiveNoteMessage;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MidiInputReceiver implements Receiver {
 
 	private static final int LOWEST_NOTE = 30;
 	private static final int HIGHEST_NOTE = 78;
 	private static final int SPLIT_NOTE = 54;
+	
+	private MidiDeviceManager manager;
 
-	public MidiInputReceiver() {
+	public MidiInputReceiver(MidiDeviceManager manager) {
+		this.manager = manager;
 	}
 
 	@Override
@@ -30,18 +35,18 @@ public class MidiInputReceiver implements Receiver {
 				int tone = shortMessage.getData1();
 				int velocity = shortMessage.getData2();
 				if (velocity > 0) {
-					Note note = parseMessage(tone, velocity);
-					Bukkit.getOnlinePlayers().forEach(player -> note.play(player));
+					LiveNote note = parseMessage(tone, velocity);
+					manager.getMod().getLiveNotesChannel().sendToServer(new LiveNoteMessage(note));
 				}			
 			}
 		}
 	}
 
-	private Note parseMessage(int tone, int velocity) {		
-		Instrument instrument = tone < SPLIT_NOTE ? Instrument.BASS : Instrument.PIANO;
+	private LiveNote parseMessage(int tone, int velocity) {		
+		LiveNoteInstrument instrument = tone < SPLIT_NOTE ? LiveNoteInstrument.BASS : LiveNoteInstrument.PIANO;
 		float pitch = parsePitch(tone);
 		float volume = parseVolume(velocity);
-		return new Note(instrument, pitch, volume);
+		return new LiveNote(instrument, pitch, volume);
 	}
 
 	private float parsePitch(int midiTone) {

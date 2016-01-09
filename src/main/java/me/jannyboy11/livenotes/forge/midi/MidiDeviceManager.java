@@ -1,4 +1,4 @@
-package me.jannyboy11.livenotes.midi;
+package me.jannyboy11.livenotes.forge.midi;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -7,26 +7,27 @@ import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiDevice.Info;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.spi.MidiDeviceProvider;
 
-import org.bukkit.configuration.file.FileConfiguration;
-
-import lombok.Getter;
-import me.jannyboy11.livenotes.LiveNotesPlugin;
+import me.jannyboy11.livenotes.forge.LiveNotesMod;
 
 public class MidiDeviceManager {
 	
-	private @Getter LiveNotesPlugin plugin;
+	private LiveNotesMod mod;
 	private MidiInputReceiver receiver;
 	private MidiDevice keyboard;
 	
-	public MidiDeviceManager(LiveNotesPlugin plugin) {
-		this.plugin = plugin;
-		receiver = new MidiInputReceiver();		
+	public MidiDeviceManager(LiveNotesMod mod) {
+		this.mod = mod;
+		receiver = new MidiInputReceiver(this);		
 	}
 
-	public void connect() {
-		FileConfiguration config = plugin.getConfig();
-		String deviceInfo = config.getString("midi-in-device-info");
+	public LiveNotesMod getMod() {
+		return mod;
+	}
+	
+	public void connect(String deviceInfo) {
+		
 		for (Info midiDeviceInfo : MidiSystem.getMidiDeviceInfo()) {
 			if (deviceInfo.equals(midiDeviceInfo.toString())) {
 				try {
@@ -37,20 +38,20 @@ public class MidiDeviceManager {
 						device.open();
 						keyboard = device;
 					} else {
-						
+						mod.getLogger().warning("Your device is not a midi input device!");
 					}
 				} catch (MidiUnavailableException e) {
 					e.printStackTrace();
-				}				
+				}
+				return;
 			}
 		}
 		
 		if (keyboard == null) {
 			String available = Arrays.toString(Stream.of(MidiSystem.getMidiDeviceInfo()).map(info -> info.toString()).toArray());
-			plugin.getLogger().severe("Midi Input Device not found!");
-			plugin.getLogger().severe("Available devices: " + available);
-			plugin.getLogger().severe("LiveNotes will now be disabled!");
-			plugin.getServer().getPluginManager().disablePlugin(plugin);
+			mod.getLogger().warning("Midi Input Device " + deviceInfo + " not found!");
+			mod.getLogger().warning("Available devices: " + available);
+			mod.getLogger().warning("LiveNotes will not be able to propagate your midi messages to the server!");
 		}
 	}	
 	
@@ -62,7 +63,7 @@ public class MidiDeviceManager {
 		try {
 			return Class.forName("com.sun.media.sound.MidiInDevice").isInstance(device);
 		} catch (ClassNotFoundException e) {
-			plugin.getLogger().severe("Could not find the MidiInDevice class! Are you sure your installed java library supports midi?");
+			mod.getLogger().severe("Could not find the MidiInDevice class! Are you sure your installed java library supports midi?");
 			return false;
 		}
 	}
