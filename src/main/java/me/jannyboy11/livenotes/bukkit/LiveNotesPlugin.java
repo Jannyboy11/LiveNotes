@@ -1,19 +1,22 @@
 package me.jannyboy11.livenotes.bukkit;
 
 import me.jannyboy11.livenotes.bukkit.messaging.LiveNoteMessageListener;
+import me.jannyboy11.livenotes.common.framework.LiveNotesPluginMod;
 import me.jannyboy11.livenotes.common.helpers.UnimportantCrap;
-import me.jannyboy11.livenotes.forge.messaging.LiveNoteMessageHandler;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListenerRegistration;
 
-public class LiveNotesPlugin extends JavaPlugin {
-	
-	private PluginMessageListenerRegistration pluginMessageListenerDetails;
+public class LiveNotesPlugin extends JavaPlugin implements LiveNotesPluginMod {
 	
 	@Override
 	public void onEnable() {
-		pluginMessageListenerDetails = getServer().getMessenger().registerIncomingPluginChannel(this, UnimportantCrap.CHANNEL, new LiveNoteMessageListener(this));
+		getServer().getMessenger().registerIncomingPluginChannel(this, UnimportantCrap.CHANNEL_NOTE, new LiveNoteMessageListener(this));
+	}
+	
+	@Override
+	public void onDisable() {
+		getServer().getMessenger().unregisterOutgoingPluginChannel(this);
 	}
 
 }

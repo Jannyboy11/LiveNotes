@@ -1,5 +1,0 @@
-name: LiveNotes
-main: me.jannyboy11.livenotes.bukkit.LiveNotesPlugin
-description: Een plugin die via een plugin messaging channel noten ontvangt van spelers en die laat afspelen op de server
-author: Jannyboy11
-version: 1.8.8-R0.1

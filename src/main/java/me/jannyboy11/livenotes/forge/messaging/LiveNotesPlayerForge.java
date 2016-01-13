@@ -3,6 +3,7 @@ package me.jannyboy11.livenotes.forge.messaging;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S29PacketSoundEffect;
 import me.jannyboy11.livenotes.common.framework.LiveNote;
+import me.jannyboy11.livenotes.common.helpers.UnimportantCrap;
 import me.jannyboy11.livenotes.common.messaging.LiveNotesPlayer;
 
 public class LiveNotesPlayerForge implements LiveNotesPlayer {
@@ -25,6 +26,16 @@ public class LiveNotesPlayerForge implements LiveNotesPlayer {
 	
 	public EntityPlayerMP getPlayer() {
 		return player;
+	}
+
+	@Override
+	public void kick(String reason) {
+		player.playerNetServerHandler.kickPlayerFromServer(reason);
+	}
+
+	@Override
+	public String getName() {
+		return player.getName();
 	}
 
 }

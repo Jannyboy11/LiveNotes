@@ -1,7 +1,10 @@
 package me.jannyboy11.livenotes.bukkit.messaging;
 
+import java.util.Arrays;
+
 import me.jannyboy11.livenotes.bukkit.LiveNotesPlugin;
 import me.jannyboy11.livenotes.common.framework.LiveNote;
+import me.jannyboy11.livenotes.common.helpers.UnimportantCrap;
 import me.jannyboy11.livenotes.common.messaging.LiveNoteMessageRecipient;
 import me.jannyboy11.livenotes.common.messaging.LiveNotesPlayer;
 
@@ -14,20 +17,26 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 import com.google.common.base.Charsets;
 
 public class LiveNoteMessageListener extends LiveNoteMessageRecipient<LiveNotesPlayerBukkit> implements PluginMessageListener {
-
-	private Plugin plugin;
 	
-	public LiveNoteMessageListener(Plugin plugin) {
-		this.plugin = plugin;
+	public LiveNoteMessageListener(LiveNotesPlugin plugin) {
+		super(plugin);
 	}
 	
 	@Override
 	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
 		LiveNotesPlayerBukkit lnPlayer = new LiveNotesPlayerBukkit(player);
-		String json = new String(message, Charsets.UTF_8);
-		json = "{" + StringUtils.substringAfter(json, "{");
-		LiveNote note = LiveNote.deserialize(json);
-		noteReceived(lnPlayer, note);
+		try {
+			switch(channel) {
+			case UnimportantCrap.CHANNEL_NOTE:				
+				LiveNote note = LiveNote.fromBytes(message);
+				noteReceived(lnPlayer, note);
+				break;
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			handleBadPacket(lnPlayer, channel, message, e);
+		}
 	}
 
 	@Override

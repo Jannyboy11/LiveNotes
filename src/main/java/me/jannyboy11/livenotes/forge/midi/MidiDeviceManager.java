@@ -9,6 +9,8 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.spi.MidiDeviceProvider;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import me.jannyboy11.livenotes.forge.LiveNotesMod;
 
 public class MidiDeviceManager {
@@ -56,7 +58,9 @@ public class MidiDeviceManager {
 	}	
 	
 	public void disconnect() {
-		keyboard.close();
+		if (keyboard != null) {
+			keyboard.close();
+		}
 	}
 	
 	private boolean isMidiInDevice(MidiDevice device) {

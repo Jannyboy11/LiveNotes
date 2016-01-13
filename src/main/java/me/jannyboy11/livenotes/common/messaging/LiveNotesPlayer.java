@@ -6,4 +6,7 @@ public interface LiveNotesPlayer {
 	
 	public void playNote(LiveNote note);
 
+	public void kick(String reason);
+	
+	public String getName();
 }

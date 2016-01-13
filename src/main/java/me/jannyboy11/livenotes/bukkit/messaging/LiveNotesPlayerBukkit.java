@@ -26,4 +26,14 @@ public class LiveNotesPlayerBukkit implements LiveNotesPlayer {
 		return player;
 	}
 
+	@Override
+	public void kick(String reason) {
+		player.kickPlayer(reason);
+	}
+
+	@Override
+	public String getName() {
+		return player.getName();
+	}
+
 }

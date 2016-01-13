@@ -1,5 +1,6 @@
 package me.jannyboy11.livenotes.common.framework;
 
+import com.google.common.base.Charsets;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -33,6 +34,14 @@ public class LiveNote {
 		note.setPitch(json.get("pitch").getAsFloat());
 		note.setVolume(json.get("volume").getAsFloat());
 		return note;
+	}
+	
+	public byte[] getBytes() {
+		return serialize().getBytes(Charsets.UTF_8);
+	}
+	
+	public static LiveNote fromBytes(byte[] bytes) {
+		return deserialize(new String(bytes, Charsets.UTF_8));
 	}
 	
 	public LiveNoteInstrument getInstrument() {
