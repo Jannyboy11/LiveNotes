@@ -16,7 +16,7 @@ public class LiveNotesPlugin extends JavaPlugin implements LiveNotesPluginMod {
 	
 	@Override
 	public void onDisable() {
-		getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+		getServer().getMessenger().unregisterIncomingPluginChannel(this);
 	}
 
 }
