@@ -2,9 +2,9 @@ package me.jannyboy11.livenotes.bukkit.messaging;
 
 import java.util.Arrays;
 
-import me.jannyboy11.livenotes.bukkit.LiveNotesPlugin;
+import me.jannyboy11.livenotes.bukkit.LiveNotesBukkit;
 import me.jannyboy11.livenotes.common.framework.LiveNote;
-import me.jannyboy11.livenotes.common.helpers.UnimportantCrap;
+import me.jannyboy11.livenotes.common.helpers.LiveNotesStatics;
 import me.jannyboy11.livenotes.common.messaging.LiveNoteMessageRecipient;
 import me.jannyboy11.livenotes.common.messaging.LiveNotesPlayer;
 
@@ -16,26 +16,22 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import com.google.common.base.Charsets;
 
-public class LiveNoteMessageListener extends LiveNoteMessageRecipient<LiveNotesPlayerBukkit> implements PluginMessageListener {
-	
-	public LiveNoteMessageListener(LiveNotesPlugin plugin) {
+public class LiveNoteMessageListenerBukkit extends LiveNoteMessageRecipient<LiveNotesPlayerBukkit> implements PluginMessageListener {
+
+	public LiveNoteMessageListenerBukkit(LiveNotesBukkit plugin) {
 		super(plugin);
 	}
-	
+
 	@Override
 	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
 		LiveNotesPlayerBukkit lnPlayer = new LiveNotesPlayerBukkit(player);
-		try {
-			switch(channel) {
-			case UnimportantCrap.CHANNEL_NOTE:				
+		if (player.hasPermission("livenotes.playpiano")) {
+			try {
 				LiveNote note = LiveNote.fromBytes(message);
 				noteReceived(lnPlayer, note);
-				break;
-			default:
-				break;
+			} catch (Exception e) {
+				handleBadPacket(lnPlayer, channel, message, e);
 			}
-		} catch (Exception e) {
-			handleBadPacket(lnPlayer, channel, message, e);
 		}
 	}
 

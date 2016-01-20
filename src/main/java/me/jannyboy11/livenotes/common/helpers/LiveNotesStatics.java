@@ -1,12 +1,12 @@
 package me.jannyboy11.livenotes.common.helpers;
 
-public class UnimportantCrap {
+public class LiveNotesStatics {
 	
-	private UnimportantCrap() {}
+	private LiveNotesStatics() {}
 	
 	public static final String NAME = "LiveNotes";
-	public static final String MOD_ID = "livenotes";
-	public static final String VERSION = "1.8.8-R0.2";
+	public static final String ID = "livenotes";
+	public static final String VERSION = "1.8.8-R0.3";
 
 	public static final String CHANNEL_NOTE = "LN|Note";
 	

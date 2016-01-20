@@ -1,4 +1,4 @@
-package me.jannyboy11.livenotes.forge.midi;
+package me.jannyboy11.livenotes.common.midi;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -9,26 +9,26 @@ import javax.sound.midi.ShortMessage;
 
 import me.jannyboy11.livenotes.common.framework.LiveNoteInstrument;
 import me.jannyboy11.livenotes.common.framework.LiveNote;
-import me.jannyboy11.livenotes.common.helpers.UnimportantCrap;
-import me.jannyboy11.livenotes.forge.LiveNotesMod;
+import me.jannyboy11.livenotes.common.helpers.LiveNotesStatics;
+import me.jannyboy11.livenotes.forge.LiveNotesForge;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class MidiInputReceiver implements Receiver {
+public abstract class MidiReceiverBase implements Receiver {
 
-	//the MIDI tone that represents the lowest note (F#) of the minecraft BASS instrument
+	//the MIDI tone that represents the lowest note (F#1) of the minecraft BASS instrument
 	private static final int LOWEST_NOTE = 30;
 	//the MIDI tone that represents both the highest note of the minecraft BASS instrument,
-	//as well as the lowest note of the minecraft PIANO instrument (F#)
+	//as well as the lowest note of the minecraft PIANO instrument (F#3)
 	private static final int SPLIT_NOTE = 54;
-	//the MIDI tone that represents the highest note (F#) of the minecraft PIANO instrument
+	//the MIDI tone that represents the highest note (F#5) of the minecraft PIANO instrument
 	private static final int HIGHEST_NOTE = 78;
 
-	private MidiDeviceManager manager;
+	protected MidiDeviceManager manager;
 
-	public MidiInputReceiver(MidiDeviceManager manager) {
+	public MidiReceiverBase(MidiDeviceManager manager) {
 		this.manager = manager;
 	}
 
@@ -45,15 +45,13 @@ public class MidiInputReceiver implements Receiver {
 				int velocity = shortMessage.getData2();
 				if (velocity > 0) {
 					LiveNote note = getNote(tone, velocity);
-					
-					ByteBuf buf = Unpooled.wrappedBuffer(note.getBytes());
-					PacketBuffer buffer = new PacketBuffer(buf);
-					FMLProxyPacket packet = new FMLProxyPacket(buffer, UnimportantCrap.CHANNEL_NOTE);
-					manager.getMod().getLiveNotesChannel().sendToServer(packet);
+					playNote(note);
 				}			
 			}
 		}
 	}
+	
+	protected abstract void playNote(LiveNote note);
 
 	private LiveNote getNote(final int tone, final int velocity) {		
 		LiveNoteInstrument instrument = tone < SPLIT_NOTE ? LiveNoteInstrument.BASS : LiveNoteInstrument.PIANO;

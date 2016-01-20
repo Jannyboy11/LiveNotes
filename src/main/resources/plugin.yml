@@ -1,0 +1,21 @@
+name: LiveNotes
+main: me.jannyboy11.livenotes.bukkit.LiveNotesBukkit
+description: > 
+    A plugin that allows players to play the piano inside your minecraft server!
+    Also enables you to play midi files in your minecraft server!
+author: Jannyboy11
+version: 1.8.8-R0.3
+
+commands:
+  playmidi:
+    description: "play a midi file!"
+    permission: "livenotes.playfile"
+    usage: "/playmidi <filename>"
+
+permissions:
+  livenotes.playpiano:
+    default: op
+    description: "Allows to play the piano"
+  livenotes.playfile:
+    default: op
+    description: "Allows to play a midi file"

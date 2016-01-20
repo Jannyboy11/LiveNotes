@@ -1,0 +1,11 @@
+[
+{
+  "modid": "livenotes",
+  "name": "LiveNotes Mod",
+  "description": "A mod that enables players to play the piano and play midi files on the forge server!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["Jannyboy11"],
+  "credits": "Jannyboy11",
+}
+]

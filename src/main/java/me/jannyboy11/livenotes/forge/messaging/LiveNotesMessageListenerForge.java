@@ -3,15 +3,15 @@ package me.jannyboy11.livenotes.forge.messaging;
 import scala.actors.threadpool.Arrays;
 import me.jannyboy11.livenotes.bukkit.messaging.LiveNotesPlayerBukkit;
 import me.jannyboy11.livenotes.common.framework.LiveNote;
-import me.jannyboy11.livenotes.common.helpers.UnimportantCrap;
+import me.jannyboy11.livenotes.common.helpers.LiveNotesStatics;
 import me.jannyboy11.livenotes.common.messaging.LiveNoteMessageRecipient;
-import me.jannyboy11.livenotes.forge.LiveNotesMod;
+import me.jannyboy11.livenotes.forge.LiveNotesForge;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
@@ -19,12 +19,12 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class LiveNotesMessageListenerForge extends LiveNoteMessageRecipient<LiveNotesPlayerForge>{
 	
-	public LiveNotesMessageListenerForge(LiveNotesMod mod) {
+	public LiveNotesMessageListenerForge(LiveNotesForge mod) {
 		super(mod);
 	}
 	
 	@SubscribeEvent
-	public void onCustomPacket(FMLNetworkEvent.ServerCustomPacketEvent event) {
+	public void onCustomPacket(ServerCustomPacketEvent event) {
 		INetHandler netHandler = event.packet.getDispatcher().manager.getNetHandler();
 		if (netHandler instanceof NetHandlerPlayServer) {
 			NetHandlerPlayServer serverHandler = (NetHandlerPlayServer) netHandler;

@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 import me.jannyboy11.livenotes.common.framework.LiveNote;
 import me.jannyboy11.livenotes.common.framework.LiveNotesPluginMod;
-import me.jannyboy11.livenotes.common.helpers.UnimportantCrap;
+import me.jannyboy11.livenotes.common.helpers.LiveNotesStatics;
 
 public abstract class LiveNoteMessageRecipient<T extends LiveNotesPlayer> {
 	
-	LiveNotesPluginMod pluginMod;
+	protected LiveNotesPluginMod pluginMod;
 	
 	protected LiveNoteMessageRecipient(LiveNotesPluginMod pluginMod) {
 		this.pluginMod = pluginMod;
@@ -24,7 +24,7 @@ public abstract class LiveNoteMessageRecipient<T extends LiveNotesPlayer> {
 		pluginMod.getLogger().warning("Player " + player.getName() + " tried to send an invalid message!");
 		pluginMod.getLogger().warning("channel = " + channel);
 		pluginMod.getLogger().warning("message = " + Arrays.toString(packetdata));
-		player.kick(UnimportantCrap.KICK_MESSAGE_PACKET_SPOOF);
+		player.kick(LiveNotesStatics.KICK_MESSAGE_PACKET_SPOOF);
 	}
 
 }

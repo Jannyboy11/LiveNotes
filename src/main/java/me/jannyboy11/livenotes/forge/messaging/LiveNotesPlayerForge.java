@@ -3,7 +3,7 @@ package me.jannyboy11.livenotes.forge.messaging;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S29PacketSoundEffect;
 import me.jannyboy11.livenotes.common.framework.LiveNote;
-import me.jannyboy11.livenotes.common.helpers.UnimportantCrap;
+import me.jannyboy11.livenotes.common.helpers.LiveNotesStatics;
 import me.jannyboy11.livenotes.common.messaging.LiveNotesPlayer;
 
 public class LiveNotesPlayerForge implements LiveNotesPlayer {
