@@ -19,12 +19,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class MidiReceiverBase implements Receiver {
 
 	//the MIDI tone that represents the lowest note (F#1) of the minecraft BASS instrument
-	private static final int LOWEST_NOTE = 30;
+	public static final int LOWEST_NOTE = 30;
 	//the MIDI tone that represents both the highest note of the minecraft BASS instrument,
 	//as well as the lowest note of the minecraft PIANO instrument (F#3)
-	private static final int SPLIT_NOTE = 54;
+	public static final int SPLIT_NOTE = 54;
 	//the MIDI tone that represents the highest note (F#5) of the minecraft PIANO instrument
-	private static final int HIGHEST_NOTE = 78;
+	public static final int HIGHEST_NOTE = 78;
 
 	protected MidiDeviceManager manager;
 
@@ -53,7 +53,7 @@ public abstract class MidiReceiverBase implements Receiver {
 	
 	protected abstract void playNote(LiveNote note);
 
-	private LiveNote getNote(final int tone, final int velocity) {		
+	protected LiveNote getNote(final int tone, final int velocity) {		
 		LiveNoteInstrument instrument = tone < SPLIT_NOTE ? LiveNoteInstrument.BASS : LiveNoteInstrument.PIANO;
 		int noteblockClicks = getNoteblockClicks(instrument, tone);
 		float pitch = getPitch(noteblockClicks);
@@ -61,27 +61,21 @@ public abstract class MidiReceiverBase implements Receiver {
 		return new LiveNote(instrument, pitch, volume);
 	}
 
-	private int getNoteblockClicks(final LiveNoteInstrument instrument, final int miditone) {
-		//#noteblockClicks = miditone - lowest possible tone for that instrument
-		switch (instrument) {
-		case BASS:
-		case BASS_DRUM: 
-		case BASS_GUITAR:
+	protected int getNoteblockClicks(final LiveNoteInstrument instrument, final int miditone) {
+		switch (instrument.getRange()) {
+		case FIS1_FIS3 :
 			return miditone - LOWEST_NOTE;
-		case PIANO:
-		case PLING:
-		case SNARE_DRUM:
-		case STICKS:
+		case FIS3_FIS5 :
 			 return miditone - SPLIT_NOTE;
 		}
 		return -1;
 	}
 
-	private float getPitch(final int noteblockClicks) {
+	protected float getPitch(final int noteblockClicks) {
 		return (float) (0.5 * Math.pow(2D, noteblockClicks / 12D));
 	}
 
-	private float getVolume(final int velocity) {
+	protected float getVolume(final int velocity) {
 		return (float) (((double) velocity) / 64D + 0.5D);	
 	}
 
