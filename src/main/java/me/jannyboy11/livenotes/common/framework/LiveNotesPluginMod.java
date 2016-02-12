@@ -12,9 +12,12 @@ public interface LiveNotesPluginMod {
 	public void playOnServer(LiveNote note);
 	
 	public void playFromClient(LiveNote note);
+
+	public void displayOnServer(int miditone);
 	
 	public File getMidiFilesFolder();
 	
 	public MidiDeviceManager getDeviceManager();
+
 
 }

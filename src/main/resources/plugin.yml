@@ -4,7 +4,7 @@ description: >
     A plugin that allows players to play the piano inside your minecraft server!
     Also enables you to play midi files in your minecraft server!
 author: Jannyboy11
-version: 1.8.8-R0.3
+version: 1.8.8-R0.4
 
 commands:
   playmidi:

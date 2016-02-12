@@ -139,4 +139,15 @@ public class LiveNotesForge implements LiveNotesPluginMod {
 		return midiFilesFolder;
 	}
 
+	@Override
+	public void displayOnServer(int miditone) {
+		for (WorldServer world : MinecraftServer.getServer().worldServers) {
+			for (Object player : world.playerEntities) {
+				if (player instanceof EntityPlayerMP) {
+					new LiveNotesPlayerForge((EntityPlayerMP) player).displayNote(miditone);
+				}
+			}
+		}
+	}
+
 }

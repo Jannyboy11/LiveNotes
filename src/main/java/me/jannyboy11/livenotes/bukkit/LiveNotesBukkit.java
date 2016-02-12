@@ -51,6 +51,11 @@ public class LiveNotesBukkit extends JavaPlugin implements LiveNotesPluginMod {
 	public MidiDeviceManager getDeviceManager() {
 		return midiDeviceManager;
 	}
+	
+	@Override
+	public void displayOnServer(int miditone) {
+		getServer().getOnlinePlayers().stream().map(LiveNotesPlayerBukkit::new).forEach(liveNotesPlayer -> liveNotesPlayer.displayNote(miditone));
+	}
 
 	@Override
 	public void playFromClient(LiveNote note) {

@@ -13,4 +13,10 @@ public class MidiReceiverClient extends MidiReceiverBase {
 		manager.getMod().playFromClient(note);
 	}
 
+	@Override
+	protected void displayNote(int miditone) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

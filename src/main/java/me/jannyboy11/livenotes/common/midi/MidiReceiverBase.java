@@ -46,12 +46,14 @@ public abstract class MidiReceiverBase implements Receiver {
 				if (velocity > 0) {
 					LiveNote note = getNote(tone, velocity);
 					playNote(note);
+					displayNote(tone);
 				}			
 			}
 		}
 	}
 	
 	protected abstract void playNote(LiveNote note);
+	protected abstract void displayNote(int miditone);
 
 	protected LiveNote getNote(final int tone, final int velocity) {		
 		LiveNoteInstrument instrument = tone < SPLIT_NOTE ? LiveNoteInstrument.BASS : LiveNoteInstrument.PIANO;

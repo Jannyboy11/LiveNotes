@@ -29,6 +29,11 @@ public class MidiReceiverServer extends MidiReceiverBase {
 			return miditone - SPLIT_NOTE;
 		}
 		return -1;
+	}
+
+	@Override
+	protected void displayNote(int miditone) {
+		manager.getMod().displayOnServer(miditone);
 	}			
 
 }

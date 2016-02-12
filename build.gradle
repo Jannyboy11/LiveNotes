@@ -27,7 +27,7 @@ buildscript {
     }
 }
 
-version = "1.8.8-R0.3"
+version = "1.8.8-R0.4"
 group= "me.jannyboy11.livenotes" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "LiveNotes"
 
