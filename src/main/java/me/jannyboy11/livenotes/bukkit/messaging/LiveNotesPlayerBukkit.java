@@ -19,11 +19,17 @@ public class LiveNotesPlayerBukkit implements LiveNotesPlayer {
 	
 	@Override
 	public void playNote(LiveNote note) {
+	    //can't be bothered to do a client version check.
 		player.playSound(
 				player.getLocation(),
 				note.getInstrument().getMinecraftName(),
 				note.getVolume(),
 				note.getPitch());
+		player.playSound(
+                player.getLocation(),
+                note.getInstrument().getNewMinecraftName(),
+                note.getVolume(),
+                note.getPitch());
 	}
 	
 	public Player getPlayer() {

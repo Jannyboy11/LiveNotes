@@ -1,20 +1,10 @@
 package me.jannyboy11.livenotes.bukkit.messaging;
 
-import java.util.Arrays;
-
 import me.jannyboy11.livenotes.bukkit.LiveNotesBukkit;
 import me.jannyboy11.livenotes.common.framework.LiveNote;
-import me.jannyboy11.livenotes.common.helpers.LiveNotesStatics;
 import me.jannyboy11.livenotes.common.messaging.LiveNoteMessageRecipient;
-import me.jannyboy11.livenotes.common.messaging.LiveNotesPlayer;
-
-import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-
-import com.google.common.base.Charsets;
 
 public class LiveNoteMessageListenerBukkit extends LiveNoteMessageRecipient<LiveNotesPlayerBukkit> implements PluginMessageListener {
 

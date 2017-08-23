@@ -54,7 +54,7 @@ public class PlayMidiFileCommand extends CommandBase {
 
 			try {
 				final Sequence sequence = MidiSystem.getSequence(midiFile);
-				final Sequencer sequencer = MidiSystem.getSequencer();
+				final Sequencer sequencer = MidiSystem.getSequencer(false);
 				sequencer.setSequence(sequence);
 				liveNotes.getDeviceManager().connectToMidiSequencer(sequencer);				
 

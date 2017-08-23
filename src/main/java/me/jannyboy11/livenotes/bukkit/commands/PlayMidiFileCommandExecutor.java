@@ -11,13 +11,11 @@ import javax.sound.midi.Sequencer;
 
 import me.jannyboy11.livenotes.bukkit.LiveNotesBukkit;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
 
 public class PlayMidiFileCommandExecutor implements CommandExecutor {
 	
@@ -41,7 +39,7 @@ public class PlayMidiFileCommandExecutor implements CommandExecutor {
 			
 			try {
 				final Sequence sequence = MidiSystem.getSequence(midiFile);
-				final Sequencer sequencer = MidiSystem.getSequencer();
+				final Sequencer sequencer = MidiSystem.getSequencer(false);
 				sequencer.setSequence(sequence);
 				liveNotes.getDeviceManager().connectToMidiSequencer(sequencer);				
 				
